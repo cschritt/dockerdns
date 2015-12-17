@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/cschritt/dockerdns.svg)](https://travis-ci.org/cschritt/dockerdns)
+[![Build Status](https://travis-ci.org/cschritt/dockerdns.svg)](https://travis-ci.org/cschritt/dockerdns) [![Code Climate](https://codeclimate.com/github/cschritt/dockerdns/badges/gpa.svg)](https://codeclimate.com/github/cschritt/dockerdns) [![Test Coverage](https://codeclimate.com/github/cschritt/dockerdns/badges/coverage.svg)](https://codeclimate.com/github/cschritt/dockerdns/coverage)
 # Dockerdns
 This Gem give you the power to monitor the Docker event stream via it's API and send dynamic updates to a DNS server on certain events
 
