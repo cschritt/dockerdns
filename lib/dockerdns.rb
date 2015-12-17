@@ -83,7 +83,7 @@ class DockerDNS
     update.add(record, 'A', ttl, ipAddress)
     # send update
     begin
-      reply = resolver.send_message(update)
+      resolver.send_message(update)
       puts "Update succeeded"
     rescue Exception => e
       puts "Update failed: #{e}"
@@ -99,7 +99,7 @@ class DockerDNS
     update.delete(record)
     # send update
     begin
-      reply = resolver.send_message(update)
+      resolver.send_message(update)
       puts "Update succeeded"
     rescue Exception => e
       puts "Update failed: #{e}"
@@ -108,7 +108,6 @@ class DockerDNS
 
   def set_ptr_record(ipAddress, hostname)
     record = "#{ipAddress.split('.').last}.#{reversezone}"
-	  fqdn = "#{hostname}.#{domain}"
     puts "setting ptr-record #{record}"
     update = Dnsruby::Update.new(reversezone)
     # add record
@@ -116,7 +115,7 @@ class DockerDNS
     update.add(record, 'PTR', ttl, fqdn)
     # send update
     begin
-      reply = resolver.send_message(update)
+      resolver.send_message(update)
       puts "Update succeeded"
     rescue Exception => e
       puts "Update failed: #{e}"
@@ -125,7 +124,6 @@ class DockerDNS
 
   def delete_ptr_record(ipAddress, hostname)
   	record = "#{ipAddress.split('.').last}.#{reversezone}"
-  	fqdn = "#{hostname}.#{domain}"
     puts "deleting ptr-record #{record}"
     update = Dnsruby::Update.new(reversezone)
     # delete record
@@ -133,7 +131,7 @@ class DockerDNS
     update.delete(record)
     # send update
     begin
-      reply = resolver.send_message(update)
+      resolver.send_message(update)
       puts "Update succeeded"
     rescue Exception => e
       puts "Update failed: #{e}"
