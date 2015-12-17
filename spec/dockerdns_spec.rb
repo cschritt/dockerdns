@@ -1,5 +1,8 @@
 require_relative '../lib/dockerdns.rb'
 
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 describe DockerDNS do
 
   before do

@@ -23,7 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "docker-api", "~> 1.23"
 
   # development dependencies
-  spec.add_development_dependency "rspec", "~> 3.4"
   spec.add_development_dependency "bundler", "~> 1.10"
+  spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4" 
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rspec", "~> 3.4"
 end
