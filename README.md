@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/cschritt/dockerdns.svg)](https://travis-ci.org/cschritt/dockerdns)
-
 # Dockerdns
-
+This Gem give you the power to monitor the Docker event stream via it's API and send dynamic updates to a DNS server on certain events
 
 ## Installation
 
