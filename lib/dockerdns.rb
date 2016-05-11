@@ -43,7 +43,7 @@ class DockerDNS
   			  next
   		  when "start"
   			  puts "caught event #{event.status} for container id #{event.id}"
-  			  create_or_update_dns_records!(event.id, domain)
+  			  create_or_update_dns_records!(event.id)
   		  when "die", "kill", "stop", "destroy"
   			  puts "caught event #{event.status} for container id #{event.id}"
   			  delete_dns_records!(event.id)
@@ -67,11 +67,11 @@ class DockerDNS
   end
 
   def a_record(fqdn)
-    resolver.answer.first.address.to_s
+    resolver.query(fqdn, 'A').answer.first.address.to_s
   end
 
   def ptr_record(ipAddress)
-    resolver.query(ipAddress, "PTR").answer.first.domainname.to_s
+    resolver.query(ipAddress, 'PTR').answer.first.domainname.to_s
   end
 
   def set_a_record(ipAddress, hostname)
@@ -108,6 +108,7 @@ class DockerDNS
 
   def set_ptr_record(ipAddress, hostname)
     record = "#{ipAddress.split('.').last}.#{reversezone}"
+    fqdn = "#{hostname}.#{domain}"
     puts "setting ptr-record #{record}"
     update = Dnsruby::Update.new(reversezone)
     # add record
@@ -143,8 +144,6 @@ class DockerDNS
     ipAddress = container_ip(id)
     set_a_record(ipAddress, hostname)
     set_ptr_record(ipAddress, hostname)
-  	a_record("#{hostname}.#{domain}")
-  	ptr_record(ipAddress)
   end
 
 

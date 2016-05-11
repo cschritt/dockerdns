@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "dockerdns"
   spec.version       = Dockerdns::VERSION
   spec.authors       = ["Christian Schritt"]
-  spec.email         = ["christian.schritt@gmail.com"]
+  spec.email         = ["christian@trademesh.de"]
 
   spec.summary       = %q{Monitor Docker events and dynamically update DNS zones}
   spec.description   = %q{This Gem give you the power to monitor the Docker event stream via it's API and send dynamic updates to a DNS server on certain events}
