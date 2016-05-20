@@ -80,11 +80,16 @@ class DockerDNS
     update = Dnsruby::Update.new(domain)
     # add record
 	  puts "update.add(#{record}, 'A', #{ttl}, #{ipAddress})"
+    update.absent(record)
     update.add(record, 'A', ttl, ipAddress)
     # send update
     begin
       resolver.send_message(update)
-      puts "Update succeeded"
+      puts "Successfully added #{record}"
+    rescue Dnsruby::YXRRSet, Dnsruby::YXDomain
+      puts "#{record} already present, deleting!"
+      delete_a_record(ipAddress, hostname)
+      retry
     rescue Exception => e
       puts "Update failed: #{e}"
     end
@@ -100,31 +105,36 @@ class DockerDNS
     # send update
     begin
       resolver.send_message(update)
-      puts "Update succeeded"
+      puts "Successfully deleted #{record}"
     rescue Exception => e
       puts "Update failed: #{e}"
     end
   end
 
   def set_ptr_record(ipAddress, hostname)
-    record = "#{ipAddress.split('.').last}.#{reversezone}"
+    record = "#{IPAddr.new(ipAddress).reverse}"
     fqdn = "#{hostname}.#{domain}"
     puts "setting ptr-record #{record}"
     update = Dnsruby::Update.new(reversezone)
     # add record
 	  puts "update.add(#{record}, 'PTR', #{ttl}, #{fqdn})"
+    update.absent(record)
     update.add(record, 'PTR', ttl, fqdn)
     # send update
     begin
       resolver.send_message(update)
-      puts "Update succeeded"
+      puts "Successfully added #{record}"
+    rescue Dnsruby::YXRRSet, Dnsruby::YXDomain
+      puts "#{record} already present, deleting!"
+      delete_ptr_record(ipAddress, hostname)
+      retry
     rescue Exception => e
       puts "Update failed: #{e}"
     end
   end
 
   def delete_ptr_record(ipAddress, hostname)
-  	record = "#{ipAddress.split('.').last}.#{reversezone}"
+  	record = "#{IPAddr.new(ipAddress).reverse}"
     puts "deleting ptr-record #{record}"
     update = Dnsruby::Update.new(reversezone)
     # delete record
@@ -133,7 +143,7 @@ class DockerDNS
     # send update
     begin
       resolver.send_message(update)
-      puts "Update succeeded"
+      puts "Successfully deleted #{record}"
     rescue Exception => e
       puts "Update failed: #{e}"
     end
